@@ -65,29 +65,23 @@ class UploadExcel(CreateAPIView):
 
 
 def extract_date(description):
-    # Define a regex pattern to match "January 2024"
     date_pattern = r'\b(\w+\s+\d{4})\b'
 
-    # Search for the pattern in the description
     match = re.search(date_pattern, description)
 
     if match:
-        # Extract the matched string
         date_str = match.group(1)
         try:
-            # Convert the string to a datetime object (Optional)
             date_obj = datetime.strptime(date_str, '%B %Y')
             return date_obj
         except ValueError:
-            return date_str  # Return the raw string if parsing fails
+            return date_str
     return None
 
 
 def generate_excel(request):
-    # Query the data
     insurance_data = InsuranceData.objects.select_related('name__clubbed_name').all()
 
-    # Transform the data into the required format
     data = []
     for item in insurance_data:
         row = {
@@ -100,18 +94,14 @@ def generate_excel(request):
         }
         data.append(row)
 
-    # Create a DataFrame
     df = pd.DataFrame(data)
 
-    # Generate an Excel file
     with pd.ExcelWriter('insurance_data.xlsx') as writer:
         df.to_excel(writer, index=False, sheet_name='InsuranceData')
 
-    # Return the Excel file as a response
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="insurance_data.xlsx"'
 
-    # Write the Excel file to the response
     with open('insurance_data.xlsx', 'rb') as f:
         response.write(f.read())
 
