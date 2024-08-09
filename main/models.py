@@ -105,6 +105,6 @@ class UploadFile(BaseModelMixin):
 
 
 @receiver(post_save, sender=UploadFile)
-def send_notification_on_schedule_create_athletes(sender, instance: UploadFile, created, **kwargs):
+def process_file(sender, instance: UploadFile, created, **kwargs):
     if created:
         instance.handle_upload()
