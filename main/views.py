@@ -2,8 +2,6 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 import re
-
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.http import HttpResponse
 from rest_framework.generics import CreateAPIView
@@ -11,9 +9,6 @@ from rest_framework.response import Response
 from main.enum import LOBEnum
 from main.models import Name, InsuranceData
 from main.serializers import UploadFileSerializer
-
-
-# Create your views here.
 
 
 class UploadExcel(CreateAPIView):
@@ -27,7 +22,6 @@ class UploadExcel(CreateAPIView):
             xls = pd.ExcelFile('temp.xlsx')
             sheets_data = {}
             for sheet_name in xls.sheet_names:
-                print(sheet_name)
                 df = pd.read_excel(xls, sheet_name=sheet_name)
                 df = df.replace(np.nan, None)
 
