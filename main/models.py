@@ -21,6 +21,13 @@ class Name(BaseModelMixin):
     clubbed_name = models.ForeignKey(Category, on_delete=models.CASCADE, blank=False, null=False)
 
 
+class InsuranceData(BaseModelMixin):
+    date = models.DateField(null=False, blank=False)
+    name = models.ForeignKey(Name, on_delete=models.CASCADE, null=False, blank=False)
+    product = models.CharField(choices=LOBEnum.get_choices(), null=False, blank=False, max_length=100)
+    value = models.FloatField(null=False, blank=False)
+
+
 class UploadFile(BaseModelMixin):
     file = models.FileField(upload_to='media/excel/')
     upload_status = models.CharField(null=False, blank=False, choices=FileUploadStatusEnum.get_choices(),
@@ -95,13 +102,6 @@ class UploadFile(BaseModelMixin):
                                     InsuranceData.objects.create(date=self.extracted_date.date(), name=name.first(),
                                                                  product=product.value, value=row.iloc[i])
         return rows
-
-
-class InsuranceData(BaseModelMixin):
-    date = models.DateField(null=False, blank=False)
-    name = models.ForeignKey(Name, on_delete=models.CASCADE, null=False, blank=False)
-    product = models.CharField(choices=LOBEnum.get_choices(), null=False, blank=False, max_length=100)
-    value = models.FloatField(null=False, blank=False)
 
 
 @receiver(post_save, sender=UploadFile)
