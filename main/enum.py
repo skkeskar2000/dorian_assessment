@@ -17,3 +17,10 @@ class LOBEnum(BaseEnum):
     MOTOR_TP = ('Motor TP', 'Motor TP')
     OVERSEAS_MEDICAL = ('Overseas Medical', 'Overseas Medical')
     PA = ('P.A. ', 'P.A. ')
+
+
+class FileUploadStatusEnum(BaseEnum):
+    INITIATED = ('Initiated', ('initiated',))
+    PROCESSING = ('Processing', ('processing',))
+    SUCCESS = ('Success', ('success',))
+    FAILED = ('Failed', ('failed',))

@@ -4,5 +4,5 @@ from main.views import UploadExcel, generate_excel
 
 urlpatterns = [
     path('generate-excel/', generate_excel, name='generate_excel'),
-    path('upload/', UploadExcel.as_view())
+    path('upload-excel/', UploadExcel.as_view(), name='upload_excel')
 ]
